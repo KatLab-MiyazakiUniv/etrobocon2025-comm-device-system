@@ -1,7 +1,7 @@
 """mainモジュール.
 
 プロジェクトルートで、以下のコマンドを実行すると最初に呼び出されるファイル
-> poetry run python camera_system
+> uv run src
 
 必要最低限のコードのみを記述するようにする
 @author: takahashitom
