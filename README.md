@@ -1,4 +1,4 @@
-# etrobocon2024-camera-system
+# etrobocon2025-comm-device-system
 宮崎大学片山徹郎研究室チームKatLabが作成するETロボコン2025アドバンストクラスの無線通信デバイス内システム用のプログラムです。
 
 走行システムのプログラムは[こちら](https://github.com/KatLab-MiyazakiUniv/etrobocon2025)を参照してください。
