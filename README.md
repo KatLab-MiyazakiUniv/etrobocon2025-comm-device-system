@@ -41,20 +41,20 @@ make check_style
     # pip
     pip install uv
     ```
+    pip 環境があれば、pip からもインストールできる。
 
 1. python 3.11.13 を uv 上にインストール
 
     ```
     uv python install 3.11.13
-
-    uv python list
     ```
+    `uv python list` でインストールした python のバージョンを確認できる。
 
 1. 仮想環境を構築およびアクティベート
 
     ```
-    uv venv
-    source .venv/bin/activate
+    uv venv　# 仮想環境を構築
+    source .venv/bin/activate　# 仮想環境をアクティベート
     ```
 
     ターミナルのユーザの左に (etrobocon2025-comm-device-system) という表記が出ていれば、仮想環境のアクティベート成功
