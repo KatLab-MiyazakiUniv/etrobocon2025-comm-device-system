@@ -1,0 +1,21 @@
+[project]
+name = "etrobocon2025-comm-device-system"
+version = "0.1.0"
+description = "宮崎大学片山徹郎研究室チームKatLabが作成するETロボコン2025アドバンストクラスの無線通信デバイス内システム用のプログラムです."
+authors = ["KatLab-MiyazakiUniv"]
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+
+dependencies = [
+  "autopep8",
+  "pycodestyle",
+  "pydocstyle",
+  "coverage",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-mock>=3.14.1",
+]
+
