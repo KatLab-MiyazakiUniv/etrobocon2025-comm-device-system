@@ -26,3 +26,6 @@ check_style:
 coverage:
 	uv run coverage run -m pytest
 	uv run coverage report
+
+server:
+	uv run src/server/FastAPI_server.py
