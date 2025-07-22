@@ -11,6 +11,8 @@ dependencies = [
   "pycodestyle",
   "pydocstyle",
   "coverage",
+  "pillow>=11.3.0",
+  "requests>=2.32.4",
 ]
 
 [dependency-groups]
