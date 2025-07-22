@@ -54,7 +54,7 @@ class OfficialInterface:
             response = requests.post(url, headers=headers,
                                      data=image_data, params=params)
             # レスポンスのステータスコードが201の場合、通信成功
-            print(f"Response status code: {response.status_code}")
+            # print(f"Response status code: {response.status_code}")
             if response.status_code != 201:
                 raise ResponseError("Failed to send fig image.")
             success = True
