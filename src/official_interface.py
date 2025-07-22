@@ -6,18 +6,24 @@ import requests
 import os
 # from image_processing import ImageProcessing
 from PIL import Image
+
+
 class ResponseError(Exception):
     """レスポンスエラー用の例外."""
+
     def __init__(self, message: str):
         """コンストラクタ.
         Args:
             message (string): エラーメッセージ
         """
         super().__init__(message)
+
+
 class OfficialInterface:
     """競技システムとの通信を行うクラス."""
     SERVER_IP = "192.168.11.44"    # 競技システムのIPアドレス
     TEAM_ID = 117                   # チームID
+
     @classmethod
     def upload_snap(cls, img_path: str) -> bool:
         """フィグ画像をアップロードする.
@@ -57,6 +63,8 @@ class OfficialInterface:
             print(e)
             success = False
         return success
+
+
 if __name__ == "__main__":
     print("test-start")
     print("Current working directory:", os.getcwd())
