@@ -1,6 +1,7 @@
 """
-走行体と通信するWebサーバー.
+走行体と通信するWebサーバプログラム.
 
+@file fastapi_server.py
 @author Hara1274
 """
 
@@ -15,10 +16,6 @@ from fastapi.responses import JSONResponse
 
 
 app = FastAPI()
-
-origins = [
-    "http://localhost",
-]
 
 app.add_middleware(
     CORSMiddleware,
@@ -55,7 +52,7 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     """
     if not file.filename:
         return JSONResponse(
-            content={"error": "No selected file"},
+            content={"error": "No uploaded file"},
             status_code=status.HTTP_400_BAD_REQUEST,
         )
 

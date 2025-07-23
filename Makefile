@@ -9,6 +9,8 @@ help:
 	@echo " $$ make check_style"
 	@echo "カバレッジレポートの表示"
 	@echo " $$ make coverage"
+	@echo "サーバを起動"
+	@echo " $$ make server"
 
 run:
 	uv run src

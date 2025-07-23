@@ -1,5 +1,5 @@
 """
-走行体と通信するWebサーバー用のテスト.
+走行体と通信するWebサーバ用のテスト.
 
 @author Hara1274
 """
@@ -25,16 +25,16 @@ def test_upload_no_file():
 
 def test_upload_real_image_file():
     # アップロードする実際の画像ファイルのパス
-    image_path = "tests/testdata/img/black.jpeg"
-    file_name = "black.jpeg"
+    image_path = "tests/testdata/img/test_data.JPEG"
+    file_name = "black.JPEG"
 
     # ファイルをバイナリで読み込んでアップロード
     with open(image_path, "rb") as image_file:
         response = client.post(
             "/images",
-            files={"file": (file_name, image_file, "image/jpeg")}
+            files={"file": (file_name, image_file, "image/JPEG")}
         )
-
+    
     # 正常レスポンスを検証
     assert response.status_code == 200
     # 成功メッセージが返っていることを検証
