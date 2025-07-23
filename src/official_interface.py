@@ -24,7 +24,7 @@ class ResponseError(Exception):
 class OfficialInterface:
     """競技システムとの通信を行うクラス."""
 
-    SERVER_IP = "192.168.11.44"    # 競技システムのIPアドレス
+    SERVER_IP = "192.168.100.1"    # 競技システムのIPアドレス192.168.11.44
     TEAM_ID = 117                   # チームID
 
     @classmethod
@@ -50,6 +50,9 @@ class OfficialInterface:
             # サイズが正しくない場合はリサイズする
             img = Image.open(img_path)
             width, height = img.size
+            if not (width == 800 and height == 600):
+                img = img.resize((800, 600))
+                img.save(img_path)
             # if not (width == 800 and height == 600):
             #     ImageProcessing.resize_img(img_path, img_path, 800, 600)
             # bytes型で読み込み
@@ -60,10 +63,12 @@ class OfficialInterface:
                                      data=image_data, params=params)
             # レスポンスのステータスコードが201の場合、通信成功
             # print(f"Response status code: {response.status_code}")
+            print("Response status code:", response.status_code)
+            print("Response text:", response.text)  # 追加
             if response.status_code != 201:
-                raise ResponseError("Failed to send fig image.")
+                raise ResponseError("Failed to send upload image.")
             success = True
-            print("Fig image uploaded successfully.")
+            print("Image uploaded successfully.")
         except Exception as e:
             print(e)
             success = False
