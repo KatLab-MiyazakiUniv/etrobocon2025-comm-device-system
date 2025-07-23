@@ -24,7 +24,7 @@ class ResponseError(Exception):
 class OfficialInterface:
     """競技システムとの通信を行うクラス."""
 
-    SERVER_IP = "192.168.100.1"    # 競技システムのIPアドレス192.168.11.44
+    SERVER_IP = "192.168.100.1"    # 競技システムのIPアドレス
     TEAM_ID = 117                   # チームID
 
     @classmethod
