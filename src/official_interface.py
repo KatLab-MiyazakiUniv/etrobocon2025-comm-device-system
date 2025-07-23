@@ -5,7 +5,6 @@
 """
 import requests
 import os
-# from image_processing import ImageProcessing
 from PIL import Image
 
 
@@ -47,14 +46,15 @@ class OfficialInterface:
             "id": cls.TEAM_ID
         }
         try:
+            if not os.path.exists(img_path):
+                print(f"画像ファイルが存在しません: {img_path}")
+                return False
             # サイズが正しくない場合はリサイズする
             img = Image.open(img_path)
             width, height = img.size
             if not (width == 800 and height == 600):
                 img = img.resize((800, 600))
-                img.save(img_path)
-            # if not (width == 800 and height == 600):
-            #     ImageProcessing.resize_img(img_path, img_path, 800, 600)
+                img.save(img_path, format="JPEG")
             # bytes型で読み込み
             with open(img_path, "rb") as image_file:
                 image_data = image_file.read()
@@ -62,7 +62,6 @@ class OfficialInterface:
             response = requests.post(url, headers=headers,
                                      data=image_data, params=params)
             # レスポンスのステータスコードが201の場合、通信成功
-            # print(f"Response status code: {response.status_code}")
             print("Response status code:", response.status_code)
             print("Response text:", response.text)  # 追加
             if response.status_code != 201:
