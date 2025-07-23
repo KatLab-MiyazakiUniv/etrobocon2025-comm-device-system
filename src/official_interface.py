@@ -1,4 +1,5 @@
 """競技システムインタフェース.
+
 競技システムとの通信を行うクラス.
 @author: nishijima515
 """
@@ -13,6 +14,7 @@ class ResponseError(Exception):
 
     def __init__(self, message: str):
         """コンストラクタ.
+
         Args:
             message (string): エラーメッセージ
         """
@@ -21,14 +23,17 @@ class ResponseError(Exception):
 
 class OfficialInterface:
     """競技システムとの通信を行うクラス."""
+
     SERVER_IP = "192.168.11.44"    # 競技システムのIPアドレス
     TEAM_ID = 117                   # チームID
 
     @classmethod
     def upload_snap(cls, img_path: str) -> bool:
-        """フィグ画像をアップロードする.
+        """指定された画像をアップロードする.
+
         Args:
             img_path (str): アップロードする画像のパス
+
         Returns:
             success (bool): 通信が成功したか(成功:true/失敗:false)
         """
