@@ -4,7 +4,7 @@
 @author Hara1274
 """
 from fastapi.testclient import TestClient
-from server.FastAPI_server import app
+from server.fastapi_server import app
 import os
 
 # テスト用クライアントの生成
@@ -25,7 +25,7 @@ def test_upload_no_file():
 
 def test_upload_real_image_file():
     # アップロードする実際の画像ファイルのパス
-    image_path = "tests/testdata/img/test_data.JPEG"
+    image_path = "tests/test_data/img/test_data.JPEG"
     file_name = "black.JPEG"
 
     # ファイルをバイナリで読み込んでアップロード
@@ -34,7 +34,7 @@ def test_upload_real_image_file():
             "/images",
             files={"file": (file_name, image_file, "image/JPEG")}
         )
-    
+
     # 正常レスポンスを検証
     assert response.status_code == 200
     # 成功メッセージが返っていることを検証
