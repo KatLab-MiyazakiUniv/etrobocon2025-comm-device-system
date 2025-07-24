@@ -98,4 +98,4 @@ if __name__ == "__main__":
         ip = connect_interface.getsockname()[0]
         connect_interface.close()
 
-    uvicorn.run("FastAPI_server:app", host=ip, port=8000, reload=True)
+    uvicorn.run("fastapi_server:app", host=ip, port=8000, reload=True)
