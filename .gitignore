@@ -2,3 +2,4 @@
 .coverage
 coverage*
 .venv
+src/server/image_data

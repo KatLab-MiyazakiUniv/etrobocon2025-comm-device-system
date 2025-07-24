@@ -9,6 +9,8 @@ help:
 	@echo " $$ make check_style"
 	@echo "カバレッジレポートの表示"
 	@echo " $$ make coverage"
+	@echo "サーバを起動"
+	@echo " $$ make server"
 
 run:
 	uv run src
@@ -26,3 +28,6 @@ check_style:
 coverage:
 	uv run coverage run -m pytest
 	uv run coverage report
+
+server:
+	uv run src/server/fastAPI_server.py

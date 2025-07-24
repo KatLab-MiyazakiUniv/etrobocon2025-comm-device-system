@@ -13,6 +13,7 @@ dependencies = [
   "coverage",
   "requests>=2.32.4",
   "pillow>=11.3.0",
+  "fastapi[standard]>=0.116.1",
 ]
 
 [dependency-groups]
