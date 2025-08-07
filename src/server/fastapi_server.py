@@ -60,7 +60,7 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # etrobocon2025-comm-device-system>image_datasに画像を保存
+    # etrobocon2025-comm-device-system>image_dataに画像を保存
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     file_path = os.path.join(project_root, 'image_data', file_name)
     try:

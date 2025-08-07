@@ -30,4 +30,4 @@ coverage:
 	uv run coverage report
 
 server:
-	uv run src/server/fastapi_server.py
+	uv run -m src.server.fastapi_server
