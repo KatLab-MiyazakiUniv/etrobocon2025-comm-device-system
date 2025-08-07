@@ -77,5 +77,5 @@ class OfficialInterface:
 if __name__ == "__main__":
     print("test-start")
     print("Current working directory:", os.getcwd())
-    OfficialInterface.upload_snap("tests/testdata/img/Fig/Fig1-1.JPEG")
+    OfficialInterface.upload_snap("tests/test_data/img/Fig/Fig1-1.JPEG")
     print("test-end")

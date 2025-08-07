@@ -13,6 +13,7 @@ import uvicorn
 from fastapi import FastAPI, UploadFile, File, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from ..official_interface import OfficialInterface
 
 
 app = FastAPI()
@@ -59,12 +60,9 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # ディレクトリ(image_data)の作成
-    upload_folder = os.path.join(os.path.dirname(__file__), 'image_data')
-    os.makedirs(upload_folder, exist_ok=True)
-
-    # src/server/image_dataに、受信したファイルを保存する。
-    file_path = os.path.join(upload_folder, file_name)
+    # etrobocon2025-comm-device-system>image_datasに画像を保存
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    file_path = os.path.join(project_root, 'image_data', file_name)
     try:
         with open(file_path, "wb") as buffer:
             buffer.write(file.file.read())
@@ -74,11 +72,22 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
-    return JSONResponse(
-        content={"message": "File uploaded successfully",
-                 "filePath": file_path},
-        status_code=status.HTTP_200_OK
-    )
+    # 競技システムにアップロード
+    upload_success = OfficialInterface.upload_snap(file_path)
+    
+    if upload_success:
+        return JSONResponse(
+            content={"message": "File uploaded successfully to both local and official system",
+                     "filePath": file_path},
+            status_code=status.HTTP_200_OK
+        )
+    else:
+        return JSONResponse(
+            content={"message": "File uploaded to local but failed to upload to official system",
+                     "filePath": file_path},
+            status_code=status.HTTP_207_MULTI_STATUS
+        )
+
 
 
 # ポート番号の設定
