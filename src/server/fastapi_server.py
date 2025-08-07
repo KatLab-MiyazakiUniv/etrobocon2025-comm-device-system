@@ -74,20 +74,29 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
 
     # 競技システムにアップロード
     upload_success = OfficialInterface.upload_snap(file_path)
-    
+
     if upload_success:
         return JSONResponse(
-            content={"message": "File uploaded successfully to both local and official system",
-                     "filePath": file_path},
+            content={
+                "message": (
+                    "File uploaded successfully to both local and "
+                    "official system"
+                ),
+                "filePath": file_path
+            },
             status_code=status.HTTP_200_OK
         )
     else:
         return JSONResponse(
-            content={"message": "File uploaded to local but failed to upload to official system",
-                     "filePath": file_path},
+            content={
+                "message": (
+                    "File uploaded to local but failed to upload to "
+                    "official system"
+                ),
+                "filePath": file_path
+            },
             status_code=status.HTTP_207_MULTI_STATUS
         )
-
 
 
 # ポート番号の設定

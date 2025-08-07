@@ -37,13 +37,15 @@ def test_upload_real_image_file():
 
     # 正常レスポンスを検証（ローカル保存成功、競技システム送信は失敗の可能性）
     json_data = response.json()
-    
+
     if response.status_code == 200:
         # 両方成功の場合
-        assert json_data["message"] == "File uploaded successfully to both local and official system"
+        assert json_data["message"] == (
+            "File uploaded successfully to both local and official system")
     elif response.status_code == 207:
         # ローカル保存のみ成功の場合
-        assert json_data["message"] == "File uploaded to local but failed to upload to official system"
+        assert json_data["message"] == (
+            "File uploaded to local but failed to upload to official system")
     else:
         # 予期しないステータスコード
         assert False, f"Unexpected status code: {response.status_code}"
