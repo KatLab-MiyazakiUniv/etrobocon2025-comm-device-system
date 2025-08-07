@@ -36,7 +36,7 @@ make format
 make check_style
 ```
 
-サーバを起動する
+サーバを起動する(詳しくは Notion の開発メモに記載)
 
 ```
 make server
