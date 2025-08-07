@@ -62,7 +62,12 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
 
     # etrobocon2025-comm-device-system>image_dataに画像を保存
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    file_path = os.path.join(project_root, 'image_data', file_name)
+    image_data_dir = os.path.join(project_root, 'image_data')
+    
+    # image_dataディレクトリが存在しない場合は作成
+    os.makedirs(image_data_dir, exist_ok=True)
+    
+    file_path = os.path.join(image_data_dir, file_name)
     try:
         with open(file_path, "wb") as buffer:
             buffer.write(file.file.read())
