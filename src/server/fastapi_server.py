@@ -53,14 +53,14 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     """
     if not file.filename:
         return JSONResponse(
-            content={"error": "No uploaded file"},
+            content={"error": "No filename provided in uploaded file"},
             status_code=status.HTTP_400_BAD_REQUEST,
         )
 
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # etrobocon2025-comm-device-system>image_dataに画像を保存
+    # etrobocon2025-comm-device-system\image_dataに画像を保存
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     image_data_dir = os.path.join(project_root, 'image_data')
 
@@ -83,10 +83,7 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     if upload_success:
         return JSONResponse(
             content={
-                "message": (
-                    "File uploaded successfully to both local and "
-                    "official system"
-                ),
+                "message": "File uploaded successfully",
                 "filePath": file_path
             },
             status_code=status.HTTP_200_OK
@@ -94,13 +91,10 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     else:
         return JSONResponse(
             content={
-                "message": (
-                    "File uploaded to local but failed to upload to "
-                    "official system"
-                ),
+                "error": "File saved locally but failed to upload to official system",
                 "filePath": file_path
             },
-            status_code=status.HTTP_207_MULTI_STATUS
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
 
