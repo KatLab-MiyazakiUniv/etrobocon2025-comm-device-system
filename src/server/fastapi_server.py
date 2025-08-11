@@ -91,7 +91,10 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     else:
         return JSONResponse(
             content={
-                "error": "File saved locally but failed to upload to official system",
+                "error": (
+                    "File saved locally but failed to upload to "
+                    "official system"
+                ),
                 "filePath": file_path
             },
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
