@@ -27,50 +27,60 @@ class OfficialInterface:
     TEAM_ID = 117                   # チームID
 
     @classmethod
-    def upload_snap(cls, img_path: str) -> bool:
+    def upload_snap(cls, img_path: str, maxAttempts: int = 3) -> bool:
         """指定された画像をアップロードする.
 
         Args:
             img_path (str): アップロードする画像のパス
+            maxAttempts (int): 最大試行回数
 
         Returns:
             success (bool): 通信が成功したか(成功:true/失敗:false)
         """
-        url = f"http://{cls.SERVER_IP}/snap"
-        # リクエストヘッダー
-        headers = {
-            "Content-Type": "image/jpeg"
-        }
-        # リクエストパラメータ
-        params = {
-            "id": cls.TEAM_ID
-        }
-        try:
-            if not os.path.exists(img_path):
-                print(f"画像ファイルが存在しません: {img_path}")
-                return False
-            # サイズが正しくない場合はリサイズする
-            img = Image.open(img_path)
-            width, height = img.size
-            if not (width == 800 and height == 600):
-                img = img.resize((800, 600))
-                img.save(img_path, format="JPEG")
-            # bytes型で読み込み
-            with open(img_path, "rb") as image_file:
-                image_data = image_file.read()
-            # APIにリクエストを送信
-            response = requests.post(url, headers=headers,
-                                     data=image_data, params=params)
-            # レスポンスのステータスコードが201の場合、通信成功
-            print("Response status code:", response.status_code)
-            print("Response text:", response.text)  # 追加
-            if response.status_code != 201:
-                raise ResponseError("Failed to send upload image.")
-            success = True
-            print("Image uploaded successfully.")
-        except Exception as e:
-            print(e)
-            success = False
+        # 試行回数(attempts)が最大試行回数(maxAttempts)を超えるまで送信を試みる
+        attempts = 0
+        success = False
+        while attempts < maxAttempts:
+            url = f"http://{cls.SERVER_IP}/snap"
+            # リクエストヘッダー
+            headers = {
+                "Content-Type": "image/jpeg"
+            }
+            # リクエストパラメータ
+            params = {
+                "id": cls.TEAM_ID
+            }
+            try:
+                if not os.path.exists(img_path):
+                    print(f"画像ファイルが存在しません: {img_path}")
+                    return False
+                # サイズが正しくない場合はリサイズする
+                img = Image.open(img_path)
+                width, height = img.size
+                if not (width == 800 and height == 600):
+                    img = img.resize((800, 600))
+                    img.save(img_path, format="JPEG")
+                # bytes型で読み込み
+                with open(img_path, "rb") as image_file:
+                    image_data = image_file.read()
+                # APIにリクエストを送信
+                response = requests.post(url, headers=headers,
+                                         data=image_data, params=params)
+                # レスポンスのステータスコードが201の場合、通信成功
+                print("Response status code:", response.status_code)
+                print("Response text:", response.text)  # 追加
+                if response.status_code != 201:
+                    raise ResponseError("Failed to send upload image.")
+                success = True
+                print("Image uploaded successfully.")
+                return success
+            except Exception as e:
+                print(e)
+                success = False
+
+            attempts += 1
+
+        print(f"Upload failed after {maxAttempts} attempts")
         return success
 
 
