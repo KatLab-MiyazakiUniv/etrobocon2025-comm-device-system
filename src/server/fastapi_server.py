@@ -60,13 +60,15 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # etrobocon2025-comm-device-system\image_dataに画像を保存
+    # プロジェクトルートディレクトリのパスを取得（3階層上に移動）
     project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+    # 画像保存用ディレクトリのパスを設定
     image_data_dir = os.path.join(project_root, 'image_data')
 
     # image_dataディレクトリが存在しない場合は作成
     os.makedirs(image_data_dir, exist_ok=True)
 
+    # etrobocon2025-comm-device-system\image_dataに画像を保存
     file_path = os.path.join(image_data_dir, file_name)
     try:
         with open(file_path, "wb") as buffer:
