@@ -37,6 +37,7 @@ make check_style
 ```
 
 サーバを起動する(詳しくは Notion の開発メモに記載)
+https://www.notion.so/uom-katlab/katlab-laptop-248dd5b1cc188056939ec86918b53edf?source=copy_link
 
 ```
 make server
