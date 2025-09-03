@@ -119,8 +119,8 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
         )
 
 
-@app.post("/minifig/upload/{image_number}", response_class=JSONResponse)
-def upload_minifig_image(image_number: int, file: UploadFile = File(...)) -> JSONResponse:
+@app.post("/minifig/upload", response_class=JSONResponse)
+def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
     """
     走行体から、受け取った４枚のミニフィグの画像から一番正面らしいものを競技システムにアップロードする関数.
 
@@ -186,7 +186,7 @@ def upload_minifig_image(image_number: int, file: UploadFile = File(...)) -> JSO
     if best_minifig_result["image_count"] < 4:
         return JSONResponse(
             content={
-                "message": f"Image {image_number} processed successfully",
+                "message": f"Image {best_minifig_result['image_count']} processed successfully",
                 "detection_result": detection_result,
                 "images_received": best_minifig_result["image_count"],
                 "remaining": 4 - best_minifig_result["image_count"]
