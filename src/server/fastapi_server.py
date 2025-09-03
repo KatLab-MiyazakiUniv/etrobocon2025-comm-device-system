@@ -155,27 +155,27 @@ def upload_minifig_image(image_number: int, file: UploadFile = File(...)) -> JSO
 
     # MinifigDetectorで推論を実行
     detection_result = minifig_detector.detect(file_path)
-    
+
     # 画像カウントを増加
     best_minifig_result["image_count"] += 1
-    
+
     # アップロードされた画像パスをリストに追加
     uploaded_image_paths.append(file_path)
-    
+
     # 最良画像を更新（front優先、次に信頼度優先）
     if detection_result["wasDetected"]:
         # 検出結果がfrontの場合
         if detection_result["direction"] == "front":
             # frontは既存がfront以外なら即更新、frontなら高信頼度で更新
-            if (best_minifig_result["best_direction"] != "front" or 
-                detection_result["confidence"] > best_minifig_result["best_confidence"]):
+            if (best_minifig_result["best_direction"] != "front" or
+                    detection_result["confidence"] > best_minifig_result["best_confidence"]):
                 # それぞれの値を更新
                 best_minifig_result["best_image_path"] = file_path
                 best_minifig_result["best_confidence"] = detection_result["confidence"]
                 best_minifig_result["best_direction"] = detection_result["direction"]
-        
+
         # 既存の最良画像がfrontでなく、検出結果の信頼度が高い場合
-        elif (best_minifig_result["best_direction"] != "front" and 
+        elif (best_minifig_result["best_direction"] != "front" and
               detection_result["confidence"] > best_minifig_result["best_confidence"]):
             # それぞれの値を更新
             best_minifig_result["best_image_path"] = file_path
@@ -203,14 +203,14 @@ def upload_minifig_image(image_number: int, file: UploadFile = File(...)) -> JSO
 
     # アップロード実行
     upload_success = OfficialInterface.upload_snap(upload_image_path)
-    
+
     # リセット
     best_minifig_result["image_count"] = 0
     best_minifig_result["best_image_path"] = None
     best_minifig_result["best_confidence"] = 0.0
     best_minifig_result["best_direction"] = None
     uploaded_image_paths.clear()
-    
+
     if upload_success:
         return JSONResponse(
             content={
@@ -224,6 +224,7 @@ def upload_minifig_image(image_number: int, file: UploadFile = File(...)) -> JSO
             content={"error": "Failed to upload image to official system"},
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
 
 # ポート番号の設定
 if __name__ == "__main__":
@@ -242,5 +243,10 @@ if __name__ == "__main__":
         ip = connect_interface.getsockname()[0]
         connect_interface.close()
 
-    uvicorn.run("src.server.fastapi_server:app",
-                host=ip, port=8000, reload=True)
+    uvicorn.run(
+        "src.server.fastapi_server:app",
+        host=ip,
+        port=8000,
+        reload=True,
+        reload_excludes=[".venv/*"],  # ← これを追加
+    )
