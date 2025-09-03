@@ -5,6 +5,8 @@
 """
 from fastapi.testclient import TestClient
 from src.server.fastapi_server import app
+from unittest.mock import patch
+from tests.mock_official_interface import MockOfficialInterface
 import os
 
 # テスト用クライアントの生成
@@ -23,6 +25,7 @@ def test_upload_no_file():
     assert response.status_code == 422
 
 
+@patch('src.server.fastapi_server.OfficialInterface', MockOfficialInterface)
 def test_upload_real_image_file():
     # アップロードする実際の画像ファイルのパス
     image_path = "tests/test_data/img/test_data.JPEG"
