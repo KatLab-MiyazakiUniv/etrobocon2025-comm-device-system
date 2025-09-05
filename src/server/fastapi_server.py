@@ -76,10 +76,8 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # プロジェクトルートディレクトリのパスを取得（3階層上に移動）
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     # 画像保存用ディレクトリのパスを設定
-    image_data_dir = os.path.join(project_root, 'image_data')
+    image_data_dir = os.path.join('image_data')
 
     # image_dataディレクトリが存在しない場合は作成
     os.makedirs(image_data_dir, exist_ok=True)
@@ -119,7 +117,7 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
         )
 
 
-@app.post("/minifig/upload", response_class=JSONResponse)
+@app.post("/minifig/detect", response_class=JSONResponse)
 def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
     """
     走行体から、受け取った４枚のミニフィグの画像から一番正面らしいものを競技システムにアップロードする関数.
@@ -134,10 +132,8 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
     # 画像のファイル名の取得
     file_name = file.filename
 
-    # プロジェクトルートディレクトリのパスを取得（3階層上に移動）
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     # 画像保存用ディレクトリのパスを設定
-    image_data_dir = os.path.join(project_root, 'image_data')
+    image_data_dir = os.path.join("image_data")
 
     # image_dataディレクトリが存在しない場合は作成
     os.makedirs(image_data_dir, exist_ok=True)
