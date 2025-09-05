@@ -1,6 +1,6 @@
 """テスト用の競技システムモック.
 
-@author: Claude
+@author: Hara1274
 """
 import os
 

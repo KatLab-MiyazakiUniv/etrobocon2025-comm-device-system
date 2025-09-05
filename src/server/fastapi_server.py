@@ -128,7 +128,6 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
     Returns:
         JSONResponse: 結果メッセージとステータスコード
     """
-
     # 画像のファイル名の取得
     file_name = file.filename
 
@@ -164,31 +163,37 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
         if detection_result["direction"] == "front":
             # frontは既存がfront以外なら即更新、frontなら高信頼度で更新
             if (best_minifig_result["best_direction"] != "front" or
-                    detection_result["confidence"] > best_minifig_result["best_confidence"]):
+                    detection_result["confidence"] >
+                    best_minifig_result["best_confidence"]):
                 # それぞれの値を更新
                 best_minifig_result["best_image_path"] = file_path
-                best_minifig_result["best_confidence"] = detection_result["confidence"]
-                best_minifig_result["best_direction"] = detection_result["direction"]
+                best_minifig_result["best_confidence"] = (
+                    detection_result["confidence"])
+                best_minifig_result["best_direction"] = (
+                    detection_result["direction"])
 
         # 既存の最良画像がfrontでなく、検出結果の信頼度が高い場合
         elif (best_minifig_result["best_direction"] != "front" and
-              detection_result["confidence"] > best_minifig_result["best_confidence"]):
+              detection_result["confidence"] >
+              best_minifig_result["best_confidence"]):
             # それぞれの値を更新
             best_minifig_result["best_image_path"] = file_path
-            best_minifig_result["best_confidence"] = detection_result["confidence"]
-            best_minifig_result["best_direction"] = detection_result["direction"]
+            best_minifig_result["best_confidence"] = (
+                detection_result["confidence"])
+            best_minifig_result["best_direction"] = (
+                detection_result["direction"])
 
     # 4枚未満の場合
     if best_minifig_result["image_count"] < 4:
         return JSONResponse(
             content={
-                "message": f"Image {best_minifig_result['image_count']} processed successfully",
+                "message": (f"Image {best_minifig_result['image_count']} "
+                            "processed successfully"),
                 "detection_result": detection_result,
                 "images_received": best_minifig_result["image_count"],
-                "remaining": 4 - best_minifig_result["image_count"]
-            },
-            status_code=status.HTTP_200_OK
-        )
+                "remaining": 4 -
+                best_minifig_result["image_count"]},
+            status_code=status.HTTP_200_OK)
 
     # アップロード対象画像を決定
     if best_minifig_result["best_image_path"]:
