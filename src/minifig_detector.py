@@ -60,7 +60,8 @@ class MinifigDetector:
 
         # 灰色（114）でパディングして640x640に調整
         img_padded = cv2.copyMakeBorder(
-            img_resized, top, bottom, left, right, cv2.BORDER_CONSTANT, value=(114, 114, 114))
+            img_resized, top, bottom, left, right, cv2.BORDER_CONSTANT,
+            value=(114, 114, 114))
 
         # YOLO入力形式に変換: HWC→CHW, [0,1]正規化, バッチ次元追加
         img_input = img_padded.transpose(2, 0, 1).astype(
@@ -133,7 +134,8 @@ class MinifigDetector:
 
         # 信頼度閾値を満たす検出がない場合
         if not boxes:
-            return {"wasDetected": False, "direction": "NONE", "confidence": 0.0}
+            return {"wasDetected": False,
+                    "direction": "NONE", "confidence": 0.0}
 
         # Non-Maximum Suppression で重複検出を除去
         indices = cv2.dnn.NMSBoxes(
@@ -161,7 +163,8 @@ class MinifigDetector:
             image_path (str): 画像ファイルのパス
 
         Returns:
-            dict: 検出結果 {"wasDetected": bool, "direction": str, "confidence": float}
+            dict: 検出結果 {"wasDetected": bool, "direction": str,
+                         "confidence": float}
         """
         # 共通エラーレスポンス
         error_result = {"wasDetected": False,
