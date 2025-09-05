@@ -3,3 +3,4 @@
 coverage*
 .venv
 image_data/
+models/
