@@ -38,7 +38,7 @@ best_minifig_result = {
     "best_direction": None
 }
 
-# アップロードされた画像パスを保存するリスト
+# 走行体から受け取った画像パスを保存するリスト
 uploaded_image_paths = []
 
 
@@ -151,10 +151,10 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
     # MinifigDetectorで推論を実行
     detection_result = minifig_detector.detect(file_path)
 
-    # 画像カウントを増加
+    # 走行体からミニフィグを送信された回数を増加
     best_minifig_result["image_count"] += 1
 
-    # アップロードされた画像パスをリストに追加
+    # 走行体から受け取った画像パスをリストに追加
     uploaded_image_paths.append(file_path)
 
     # 最良画像を更新（front優先、次に信頼度優先）
@@ -195,14 +195,14 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
                 best_minifig_result["image_count"]},
             status_code=status.HTTP_200_OK)
 
-    # アップロード対象画像を決定
+    # 競技システムへアップロード対象画像を決定
     if best_minifig_result["best_image_path"]:
         upload_image_path = best_minifig_result["best_image_path"]
     else:
         # ４枚すべて検出失敗時はランダムで選択
         upload_image_path = random.choice(uploaded_image_paths)
 
-    # アップロード実行
+    # 競技システムへのアップロード実行
     upload_success = OfficialInterface.upload_snap(upload_image_path)
 
     # リセット
@@ -249,5 +249,6 @@ if __name__ == "__main__":
         host=ip,
         port=8000,
         reload=True,
-        reload_excludes=[".venv/*"],  # ← これを追加
+        # .venvディレクトリ下のコード変更で、無駄な再起動を防ぐ
+        reload_excludes=[".venv/*"], 
     )
