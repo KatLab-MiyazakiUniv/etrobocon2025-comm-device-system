@@ -79,10 +79,12 @@ class MinifigDetector:
             pad: パディング情報 (left, top)
 
         Returns:
-            dict: 検出結果 {"wasDetected": bool, "direction": str, "confidence": float}
+            dict: 検出結果 {"wasDetected": bool, "direction": str,
+                   "confidence": float}
         """
         if pred.size == 0:
-            return {"wasDetected": False, "direction": "NONE", "confidence": 0.0}
+            return {"wasDetected": False, "direction": "NONE",
+                    "confidence": 0.0}
 
         # YOLO11出力解析: [1,8,N] -> [8,N]（バッチ次元除去）
         data = pred[0]
@@ -176,14 +178,14 @@ class MinifigDetector:
             return error_result
         # モデル読み込み状態チェック
         if self.session is None:
-            print("モデル読み込みエラー")        
+            print("モデル読み込みエラー")
             return error_result
         # 画像読み込み（BGR形式）
         img = cv2.imread(image_path)
         if img is None:  # 読み込み失敗（不正ファイル等）
             print("画像読み込みエラー")
             return error_result
-        
+
         # 前処理：レターボックス＋正規化
         img_input, scale, pad = self.preprocess_image(img)
 

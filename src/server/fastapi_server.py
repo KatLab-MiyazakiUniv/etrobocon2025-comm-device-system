@@ -259,5 +259,5 @@ if __name__ == "__main__":
         port=8000,
         reload=True,
         # .venvディレクトリ下のコード変更で、無駄な再起動を防ぐ
-        reload_excludes=[".venv/*"], 
+        reload_excludes=[".venv/*"],
     )
