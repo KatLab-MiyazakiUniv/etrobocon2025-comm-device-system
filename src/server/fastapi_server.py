@@ -10,7 +10,6 @@ import socket
 import os
 import uvicorn
 import random
-import shutil
 
 from fastapi import FastAPI, UploadFile, File, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -230,14 +229,6 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
 
 # ポート番号の設定
 if __name__ == "__main__":
-    # サーバー起動時にimage_dataディレクトリの中身を削除
-    image_data_dir = "image_data"
-    if os.path.exists(image_data_dir):
-        shutil.rmtree(image_data_dir)
-        print(f"{image_data_dir}ディレクトリを削除しました")
-    os.makedirs(image_data_dir, exist_ok=True)
-    print(f"{image_data_dir}ディレクトリを作成しました")
-
     ip = "127.0.0.1"
 
     if platform.system() == "Windows":
