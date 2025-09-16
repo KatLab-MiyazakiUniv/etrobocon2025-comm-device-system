@@ -14,7 +14,7 @@ import random
 from fastapi import FastAPI, UploadFile, File, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from ..minifig_detector import MinifigDetector
+from ..minifig_detector_v5 import MinifigDetector
 from ..official_interface import OfficialInterface
 
 
