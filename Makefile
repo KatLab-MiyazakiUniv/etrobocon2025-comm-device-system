@@ -30,4 +30,8 @@ coverage:
 	uv run coverage report
 
 server:
+	@if exist image_data rmdir /s /q image_data
+	@echo image_data directory deleted
+	@mkdir image_data
+	@echo image_data directory created
 	uv run -m src.server.fastapi_server
