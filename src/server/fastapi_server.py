@@ -10,6 +10,8 @@ import socket
 import os
 import uvicorn
 import random
+import cv2
+import numpy as np
 
 from fastapi import FastAPI, UploadFile, File, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -93,6 +95,13 @@ def get_image(file: UploadFile = File(...)) -> JSONResponse:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+    # シャープネス強化処理
+    img = cv2.imread(file_path)
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    img = cv2.filter2D(img, -1, kernel)
+    # 画像を上書き
+    cv2.imwrite(file_path, img)
+
     # 競技システムにアップロード
     upload_success = OfficialInterface.upload_snap(file_path)
 
@@ -148,8 +157,17 @@ def upload_minifig_image(file: UploadFile = File(...)) -> JSONResponse:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+    # シャープネス強化処理
+    img = cv2.imread(file_path)
+    kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+    img = cv2.filter2D(img, -1, kernel)
+    # 画像を上書き
+    cv2.imwrite(file_path, img)
+    
     # MinifigDetectorで推論を実行
     detection_result = minifig_detector.detect(file_path)
+
+    print(detection_result)
 
     # 走行体からミニフィグを送信された回数を増加
     best_minifig_result["image_count"] += 1
