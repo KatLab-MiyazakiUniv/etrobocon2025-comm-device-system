@@ -43,6 +43,10 @@ class MinifigDetector:
         Returns:
             tuple: (処理後画像, スケール比, パディング情報)
         """
+        # シャープネス強化
+        kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+        img = cv2.filter2D(img, -1, kernel)
+        
         # アスペクト比を保持するスケール計算
         shape = img.shape[:2]  # 元画像サイズ (H, W)
         # アスペクト比維持のスケール
