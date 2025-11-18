@@ -47,6 +47,8 @@ class MinifigDetector:
         kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
         img = cv2.filter2D(img, -1, kernel)
         
+        cv2.imwrite("output.png", img)
+
         # アスペクト比を保持するスケール計算
         shape = img.shape[:2]  # 元画像サイズ (H, W)
         # アスペクト比維持のスケール
