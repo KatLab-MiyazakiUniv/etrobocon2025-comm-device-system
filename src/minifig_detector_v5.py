@@ -189,8 +189,12 @@ class MinifigDetector:
             print("画像読み込みエラー")
             return error_result
 
-        # 前処理：レターボックス＋正規化
-        img_input, scale, pad = self.preprocess_image(img)
+        # v5モデル判定時のみ一時的に鮮明化処理を実行（アンシャープマスク）
+        blurred = cv2.GaussianBlur(img, (0, 0), 2)
+        enhanced_img = cv2.addWeighted(img, 2.5, blurred, -2.0, 0)
+
+        # 前処理：レターボックス＋正規化（鮮明化された画像を使用）
+        img_input, scale, pad = self.preprocess_image(enhanced_img)
 
         # YOLOv5推論実行
         outputs = self.session.run(None, {self.input_name: img_input})
